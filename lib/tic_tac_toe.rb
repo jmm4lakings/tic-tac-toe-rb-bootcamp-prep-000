@@ -44,4 +44,45 @@ def turn_count(board)
 end 
 
 def current_player(boar)
+  #if the turn count is an even number, that means O just went, so the next/current player is X
+  num_turns = turn_count(board)
+  if num_turns % 2 == 0 
+    player = "X"
+  else 
+    player = "O"
+  end
+  return player 
+end 
+
+def turn(board)
+  puts "Please choose a number 1-9:"
+  user_input = gets.chomp 
+  index = input_to_index(user_input)
+  if valid_move?(board, index)
+    player_token = current_player(board)
+    move(board, index, player_token)
+    display_board(board)
+  else
+    turn(board)
+  end
+end
+
+def won?(board)
+  WIN_COMBINATIONS.each {|win_combo|
+  index_0 = win_combo[0]
+  index_1 = win_combo[1]
+  index_2 = win_combo[2]
   
+  position_1 = board[index_0]
+  position_2 = board[index_1]
+  position_3 = board[index_2]
+  
+  if position_1 == "X" && position_2 =="X" && position_3 == "X"
+    return win_combo
+    elsif position_1 == "O" && position_2 =="O" && position_3 =="O"
+    return win_combo
+  end
+  }
+  return false 
+end 
+
